@@ -101,30 +101,30 @@ public class Embed
 	while (outFile.exists()) {
 	    outFile = new File(outFileName.substring(0, outFileName.lastIndexOf(".")) + (i++) + ".jpg");
 	    if (i > 100)
-		System.exit(0);
+			System.exit(0);
 	}
 	file = new File(inFileName);
 	if (file.exists()) {
 	    try {
-		dataOut = new FileOutputStream(outFile);
+			dataOut = new FileOutputStream(outFile);
 	    } catch(IOException e) {}
 	    if (inFileName.endsWith(".bmp")) {
-		Bmp bmp = new Bmp(inFileName);
-		image = bmp.getImage();
+			Bmp bmp = new Bmp(inFileName);
+			image = bmp.getImage();
 	    } else
-		image = Toolkit.getDefaultToolkit().getImage(inFileName);
-	    jpg = new JpegEncoder(image, Quality, dataOut, comment);
+			image = Toolkit.getDefaultToolkit().getImage(inFileName);
+	    jpg = new JpegEncoder(image, Quality, dataOut, comment); //create jpg based on infile jpg
 	    if (false)
-		jpg.Compress();
-	    else {
-		try {
-		    if (embFileName==null)
 			jpg.Compress();
-		    else
-			jpg.Compress(new FileInputStream(embFileName), password);
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+	    else {
+			try {
+				if (embFileName==null)
+					jpg.Compress();
+				else
+					jpg.Compress(new FileInputStream(embFileName), password);//encode here!!!
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	    }
 	    try {
 		dataOut.close();

@@ -76,7 +76,7 @@ public class Jpeg {
                                         StandardUsage();
                                 }
                                 image = Toolkit.getDefaultToolkit().getImage(args[0]);
-                                jpg = new JpegEncoder(image, Quality, dataOut);
+                                jpg = new JpegEncoder(image, Quality, dataOut,"");
                                 jpg.Compress();
                                 try {
                                         dataOut.close();

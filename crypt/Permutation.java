@@ -11,7 +11,7 @@ public class Permutation {
 
 	// To create the shuffled sequence, we initialise an array
 	// with the integers 0 ... (size-1).
-        for (i=0; i<size; i++)	// initialise with ´size´ integers
+        for (i=0; i<size; i++)	// initialise with size integers
             shuffled[i] = i;
         int maxRandom = size;	// set number of entries to shuffle
 	for (i=0; i<size; i++) {	// shuffle entries

@@ -100,7 +100,7 @@ public class JpegEncoder extends Frame
     public void Compress(FileInputStream embeddedData, String password) {
     	this.embeddedData = embeddedData;
     	this.password = password;
-	Compress();
+		Compress();
     }
 
     public void Compress() {
@@ -133,8 +133,8 @@ public class JpegEncoder extends Frame
         int Width = 0, Height = 0;
         int nothing = 0, not;
         int MinBlockWidth, MinBlockHeight;
-// This initial setting of MinBlockWidth and MinBlockHeight is done to
-// ensure they start with values larger than will actually be the case.
+		// This initial setting of MinBlockWidth and MinBlockHeight is done to
+		// ensure they start with values larger than will actually be the case.
         MinBlockWidth = ((imageWidth%8 != 0) ? (int) (Math.floor((double) imageWidth/8.0) + 1)*8 : imageWidth);
         MinBlockHeight = ((imageHeight%8 != 0) ? (int) (Math.floor((double) imageHeight/8.0) + 1)*8: imageHeight);
         for (comp = 0; comp < JpegObj.NumberOfComponents; comp++) {
@@ -142,11 +142,11 @@ public class JpegEncoder extends Frame
                 MinBlockHeight = Math.min(MinBlockHeight, JpegObj.BlockHeight[comp]);
         }
         xpos = 0;
-	// westfeld
-	// Before we enter these loops, we initialise the
-	// coeff for steganography here:
-	int shuffledIndex = 0;
-	int coeffCount = 0;
+		// westfeld
+		// Before we enter these loops, we initialise the
+		// coeff for steganography here:
+		int shuffledIndex = 0;
+		int coeffCount = 0;
         for (r = 0; r < MinBlockHeight; r++) {
            for (c = 0; c < MinBlockWidth; c++) {
               for (comp = 0; comp < JpegObj.NumberOfComponents; comp++) {
@@ -160,8 +160,8 @@ public class JpegEncoder extends Frame
         }
         int coeff[] = new int[coeffCount];
 
-System.out.println("DCT/quantisation starts");
-System.out.println(imageWidth+" x "+imageHeight);
+		//System.out.println("DCT/quantisation starts");
+		//System.out.println(imageWidth+" x "+imageHeight);
         for (r = 0; r < MinBlockHeight; r++) {
            for (c = 0; c < MinBlockWidth; c++) {
                xpos = c*8;
@@ -178,50 +178,50 @@ System.out.println(imageWidth+" x "+imageHeight);
                         for (a = 0; a < 8; a++) {
                            for (b = 0; b < 8; b++) {
 
-// I believe this is where the dirty line at the bottom of the image is
-// coming from.  I need to do a check here to make sure I'm not reading past
-// image data.
-// This seems to not be a big issue right now. (04/04/98)
+					// I believe this is where the dirty line at the bottom of the image is
+					// coming from.  I need to do a check here to make sure I'm not reading past
+					// image data.
+					// This seems to not be a big issue right now. (04/04/98)
 
-// westfeld - dirty line fixed, Jun 6 2000
-			int ia = ypos*JpegObj.VsampFactor[comp]
-			    + yblockoffset + a;
-			int ib = xpos*JpegObj.HsampFactor[comp]
-			    + xblockoffset + b;
-			if (imageHeight/2*JpegObj.VsampFactor[comp]<=ia)
-			    ia = imageHeight/2*JpegObj.VsampFactor[comp]-1;
-			if (imageWidth/2*JpegObj.HsampFactor[comp]<=ib)
-			    ib = imageWidth/2*JpegObj.HsampFactor[comp]-1;
-                              //dctArray1[a][b] = inputArray[ypos + yblockoffset + a][xpos + xblockoffset + b];
-                              dctArray1[a][b] = inputArray[ia][ib];
-                           }
-                        }
-// The following code commented out because on some images this technique
-// results in poor right and bottom borders.
-//                        if ((!JpegObj.lastColumnIsDummy[comp] || c < Width - 1) && (!JpegObj.lastRowIsDummy[comp] || r < Height - 1)) {
-                           dctArray2 = dct.forwardDCT(dctArray1);
-                           dctArray3 = dct.quantizeBlock(dctArray2, JpegObj.QtableNumber[comp]);
-//                        }
-//                        else {
-//                           zeroArray[0] = dctArray3[0];
-//                           zeroArray[0] = lastDCvalue[comp];
-//                           dctArray3 = zeroArray;
-//                        }
-			// westfeld
-			// For steganography, all dct
-			// coefficients are collected in
-			// coeff[] first. We do not encode
-			// any Huffman Blocks here (we'll do
-			// this later).
-			System.arraycopy(dctArray3, 0, coeff, shuffledIndex, 64);
-			shuffledIndex += 64;
+					// westfeld - dirty line fixed, Jun 6 2000
+					int ia = ypos*JpegObj.VsampFactor[comp]
+						+ yblockoffset + a;
+					int ib = xpos*JpegObj.HsampFactor[comp]
+						+ xblockoffset + b;
+					if (imageHeight/2*JpegObj.VsampFactor[comp]<=ia)
+						ia = imageHeight/2*JpegObj.VsampFactor[comp]-1;
+					if (imageWidth/2*JpegObj.HsampFactor[comp]<=ib)
+						ib = imageWidth/2*JpegObj.HsampFactor[comp]-1;
+									  //dctArray1[a][b] = inputArray[ypos + yblockoffset + a][xpos + xblockoffset + b];
+									  dctArray1[a][b] = inputArray[ia][ib];
+								   }
+								}
+		// The following code commented out because on some images this technique
+		// results in poor right and bottom borders.
+		//                        if ((!JpegObj.lastColumnIsDummy[comp] || c < Width - 1) && (!JpegObj.lastRowIsDummy[comp] || r < Height - 1)) {
+								   dctArray2 = dct.forwardDCT(dctArray1);
+								   dctArray3 = dct.quantizeBlock(dctArray2, JpegObj.QtableNumber[comp]);
+		//                        }
+		//                        else {
+		//                           zeroArray[0] = dctArray3[0];
+		//                           zeroArray[0] = lastDCvalue[comp];
+		//                           dctArray3 = zeroArray;
+		//                        }
+					// westfeld
+					// For steganography, all dct
+					// coefficients are collected in
+					// coeff[] first. We do not encode
+					// any Huffman Blocks here (we'll do
+					// this later).
+					System.arraycopy(dctArray3, 0, coeff, shuffledIndex, 64);
+					shuffledIndex += 64;
 
-                     }
-                  }
-               }
+							 }
+						  }
+					   }
             }
         }
-System.out.println("got "+coeffCount+" DCT AC/DC coefficients");
+		//System.out.println("got "+coeffCount+" DCT AC/DC coefficients");
 	int _changed=0;
 	int _embedded=0;
 	int _examined=0;
@@ -238,13 +238,14 @@ System.out.println("got "+coeffCount+" DCT AC/DC coefficients");
 	}
 	_large=coeffCount-_zero-_one-coeffCount/64;
 	_expected=_large+(int)(0.49*_one);
-//
-// System.out.println("zero="+_zero);
-System.out.println("one="+_one);
-System.out.println("large="+_large);
-//
-System.out.println("expected capacity: "+_expected+" bits");
-System.out.println("expected capacity with");
+	//
+	// System.out.println("zero="+_zero);
+	//System.out.println("one="+_one);
+	//System.out.println("large="+_large);
+	//
+	System.out.println("expected capacity: "+_expected/8+" bytes!!!!!!");//bits counts
+	System.out.println("coffcount: "+coeffCount);
+	//System.out.println("expected capacity with");
 for (i=1; i<8; i++) {
     int usable, changed, n;
     n = (1<<i)-1;
@@ -257,19 +258,19 @@ for (i=1; i<8; i++) {
     changed = (changed+_one+_one/2-_one/(n+1))/(n+1);
     usable /= 8;
     if (usable == 0) break;
-    if (i==1)
-	System.out.print("default");
-    else
-	System.out.print("(1, "+n+", "+i+")");
-    System.out.println(" code: "+usable+" bytes (efficiency: "
-	    +((usable*8)/changed)+"."+(((usable*80)/changed)%10)
-	    +" bits per change)");
+	//    if (i==1)
+	//	System.out.print("default");
+	//    else
+	//System.out.print("(1, "+n+", "+i+")");
+    //System.out.println(" code: "+usable+" bytes (efficiency: "
+	 //   +((usable*8)/changed)+"."+(((usable*80)/changed)%10)
+	 //   +" bits per change)");
 }
 
 	// westfeld
 	if (embeddedData != null) {
-	// Now we embed the secret data in the permutated sequence.
-System.out.println("Permutation starts");
+		// Now we embed the secret data in the permutated sequence.
+		//System.out.println("Permutation starts");
 	    F5Random random = new F5Random(password.getBytes());
 	    Permutation permutation = new Permutation(coeffCount, random);
 	    int nextBitToEmbed=0;
@@ -279,37 +280,37 @@ System.out.println("Permutation starts");
 	    // the length information it is more than one
 	    // byte, so this first "byte" is 32 bits long.
 	    try {
-		byteToEmbed=embeddedData.available();
+			byteToEmbed=embeddedData.available();
 	    } catch (Exception e) {
-		e.printStackTrace();
+			e.printStackTrace();
 	    }
 	    System.out.print("Embedding of "+(byteToEmbed*8+32)+" bits ("
-		+byteToEmbed+"+4 bytes) ");
+			+byteToEmbed+"+4 bytes) ");
 	    // We use the most significant byte for the 1 of n
 	    // code, and reserve one extra bit for future use.
 	    if (byteToEmbed>0x007fffff)
-		byteToEmbed=0x007fffff;
+			byteToEmbed=0x007fffff;
 	    // We calculate n now
 	    for (i=1; i<8; i++) {
-		int usable, changed;
-		n = (1<<i)-1;
-		usable = _expected*i/n-_expected*i/n%n;
-		usable /= 8;
-		if (usable == 0) break;
-		if (usable < byteToEmbed+4) break;
+			int usable, changed;
+			n = (1<<i)-1;
+			usable = _expected*i/n-_expected*i/n%n;
+			usable /= 8;
+			if (usable == 0) break;
+			if (usable < byteToEmbed+4) break;
 	    }
 	    int k=i-1;
 	    n=(1<<k)-1;
 	    switch (n) {
-	    case 0:
-		System.out.println("using default code, file will not fit");
-		n++;
-		break;
-	    case 1:
-		System.out.println("using default code");
-		break;
-	    default:
-		System.out.println("using (1, "+n+", "+k+") code");
+			case 0:
+				//System.out.println("using default code, file will not fit");
+				n++;
+				break;
+			case 1:
+				//System.out.println("using default code");
+				break;
+			default:
+				//System.out.println("using (1, "+n+", "+k+") code");
 	    }
 	    byteToEmbed |= k<<24;	// store k in the status word
 	    // Since shuffling cannot hide the distribution, the
@@ -478,7 +479,7 @@ System.out.println(_changed+" coefficients changed (efficiency: "
 System.out.println(_thrown+" coefficients thrown (zeroed)");
 System.out.println(_embedded+" bits ("+_embedded/8+" bytes) embedded");
 	}
-System.out.println("Starting Huffman Encoding.");
+	//System.out.println("Starting Huffman Encoding.");
 	// Do the Huffman Encoding now.
 	shuffledIndex=0;
         for (r = 0; r < MinBlockHeight; r++) {
@@ -510,12 +511,12 @@ System.out.println("Starting Huffman Encoding.");
         int i, j, index, offset, length;
         int tempArray[];
 
-// the SOI marker
+		// the SOI marker
         byte[] SOI = {(byte) 0xFF, (byte) 0xD8};
         WriteMarker(SOI, out);
 
-// The order of the following headers is quiet inconsequential.
-// the JFIF header
+		// The order of the following headers is quiet inconsequential.
+		// the JFIF header
         byte JFIF[] = new byte[18];
         JFIF[0] = (byte) 0xff;	// app0 marker
         JFIF[1] = (byte) 0xe0;
@@ -537,25 +538,25 @@ System.out.println("Starting Huffman Encoding.");
         JFIF[17] = (byte) 0x00;
 
         if (JpegObj.getComment().equals("CREATOR: gd-jpeg v1.0 (using IJG JPEG v62), quality = 80\n  "))
-		JFIF[10] = (byte) 0x00;	// 1.00
+			JFIF[10] = (byte) 0x00;	// 1.00
         WriteArray(JFIF, out);
 
-// Comment Header
+		// Comment Header
         String comment = new String();
         comment = JpegObj.getComment();
         length = comment.length();
-	if (length != 0) {
-		byte COM[] = new byte[length + 4];
-		COM[0] = (byte) 0xFF;
-		COM[1] = (byte) 0xFE;
-		COM[2] = (byte) ((length >> 8) & 0xFF);
-		COM[3] = (byte) (length & 0xFF);
-		java.lang.System.arraycopy(JpegObj.Comment.getBytes(), 0, COM, 4, JpegObj.Comment.length());
-		WriteArray(COM, out);
-	}
+		if (length != 0) {
+			byte COM[] = new byte[length + 4];
+			COM[0] = (byte) 0xFF;
+			COM[1] = (byte) 0xFE;
+			COM[2] = (byte) ((length >> 8) & 0xFF);
+			COM[3] = (byte) (length & 0xFF);
+			java.lang.System.arraycopy(JpegObj.Comment.getBytes(), 0, COM, 4, JpegObj.Comment.length());
+			WriteArray(COM, out);
+		}
 
-// The DQT header
-// 0 is the luminance index and 1 is the chrominance index
+		// The DQT header
+		// 0 is the luminance index and 1 is the chrominance index
         byte DQT[] = new byte[134];
         DQT[0] = (byte) 0xFF;
         DQT[1] = (byte) 0xDB;
@@ -571,7 +572,7 @@ System.out.println("Starting Huffman Encoding.");
         }
         WriteArray(DQT, out);
 
-// Start of Frame Header
+		// Start of Frame Header
         byte SOF[] = new byte[19];
         SOF[0] = (byte) 0xFF;
         SOF[1] = (byte) 0xC0;
@@ -591,7 +592,7 @@ System.out.println("Starting Huffman Encoding.");
         }
         WriteArray(SOF, out);
 
-// The DHT Header
+		// The DHT Header
         byte DHT1[], DHT2[], DHT3[], DHT4[];
         int bytes, temp, oldindex, intermediateindex;
         length = 2;
@@ -626,7 +627,7 @@ System.out.println("Starting Huffman Encoding.");
         WriteArray(DHT4, out);
 
 
-// Start of Scan Header
+		// Start of Scan Header
         byte SOS[] = new byte[14];
         SOS[0] = (byte) 0xFF;
         SOS[1] = (byte) 0xDA;
