@@ -99,9 +99,10 @@ public class Embed
 	outFile = new File(outFileName);
 	i = 1;
 	while (outFile.exists()) {
-	    outFile = new File(outFileName.substring(0, outFileName.lastIndexOf(".")) + (i++) + ".jpg");
-	    if (i > 100)
-			System.exit(0);
+	    //outFile = new File(outFileName.substring(0, outFileName.lastIndexOf(".")) + (i++) + ".jpg");
+	    //if (i > 100)
+		//	System.exit(0);
+		outFile.delete();
 	}
 	file = new File(inFileName);
 	if (file.exists()) {

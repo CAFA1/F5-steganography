@@ -61,12 +61,12 @@ public class Extract {
 	    fos = new FileOutputStream(new File(embFileName));
 	    fis.read(carrier);
 	    HuffmanDecode hd = new HuffmanDecode(carrier);
-System.out.println("Huffman decoding starts");
+		//System.out.println("Huffman decoding starts");
 	    coeff=hd.decode();
-System.out.println("Permutation starts");
+		//System.out.println("Permutation starts");
 	    F5Random random = new F5Random(password.getBytes());
 	    Permutation permutation = new Permutation(coeff.length, random);
-System.out.println(coeff.length+" indices shuffled");
+		//System.out.println(coeff.length+" indices shuffled");
 	    int extractedByte=0;
 	    int availableExtractedBits=0;
 	    int extractedFileLength=0;
@@ -74,7 +74,7 @@ System.out.println(coeff.length+" indices shuffled");
 	    int shuffledIndex=0;
 	    int extractedBit;
 	    int i;
-System.out.println("Extraction starts");
+		//System.out.println("Extraction starts");
 	    // extract length information
 	    for (i=0; availableExtractedBits<32; i++) {
 		shuffledIndex = permutation.getShuffled(i);
@@ -96,12 +96,12 @@ System.out.println("Extraction starts");
 	    k %= 32;
 	    int n = (1 << k)-1;
 	    extractedFileLength &= 0x007fffff;
-		System.out.println("Length of embedded file: "+extractedFileLength+" bytes");
+		//System.out.println("Length of embedded file: "+extractedFileLength+" bytes");
 	    availableExtractedBits = 0;
 	    if (n>0) {
 			int startOfN = i;
 			int hash;
-			System.out.println("(1, "+n+", "+k+") code used");
+			//System.out.println("(1, "+n+", "+k+") code used");
 			extractingLoop:
 			do {
 					// 1. read n places, and calculate k bits

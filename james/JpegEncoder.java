@@ -243,8 +243,8 @@ public class JpegEncoder extends Frame
 	//System.out.println("one="+_one);
 	//System.out.println("large="+_large);
 	//
-	System.out.println("expected capacity: "+_expected/8+" bytes!!!!!!");//bits counts
-	System.out.println("coffcount: "+coeffCount);
+	//System.out.println("expected capacity: "+_expected/8+" bytes!!!!!!");//bits counts
+	//System.out.println("coffcount: "+coeffCount);
 	//System.out.println("expected capacity with");
 for (i=1; i<8; i++) {
     int usable, changed, n;
@@ -284,8 +284,8 @@ for (i=1; i<8; i++) {
 	    } catch (Exception e) {
 			e.printStackTrace();
 	    }
-	    System.out.print("Embedding of "+(byteToEmbed*8+32)+" bits ("
-			+byteToEmbed+"+4 bytes) ");
+	    //System.out.print("Embedding of "+(byteToEmbed*8+32)+" bits ("
+		//	+byteToEmbed+"+4 bytes) ");
 	    // We use the most significant byte for the 1 of n
 	    // code, and reserve one extra bit for future use.
 	    if (byteToEmbed>0x007fffff)
@@ -471,13 +471,13 @@ embeddingLoop:
 		    } else _thrown++;
 		}
 	    }
-if (_examined > 0)
-    System.out.println(_examined+" coefficients examined");
-System.out.println(_changed+" coefficients changed (efficiency: "
-	    +(_embedded/_changed)+"."+(((_embedded*10)/_changed)%10)
-	    +" bits per change)");
-System.out.println(_thrown+" coefficients thrown (zeroed)");
-System.out.println(_embedded+" bits ("+_embedded/8+" bytes) embedded");
+		//if (_examined > 0)
+    	//	System.out.println(_examined+" coefficients examined");
+		//System.out.println(_changed+" coefficients changed (efficiency: "
+	    //+(_embedded/_changed)+"."+(((_embedded*10)/_changed)%10)
+	    //+" bits per change)");
+		//System.out.println(_thrown+" coefficients thrown (zeroed)");
+		//System.out.println(_embedded+" bits ("+_embedded/8+" bytes) embedded");
 	}
 	//System.out.println("Starting Huffman Encoding.");
 	// Do the Huffman Encoding now.
